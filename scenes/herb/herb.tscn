@@ -1,0 +1,208 @@
+[gd_scene load_steps=14 format=3 uid="uid://bh4xbrwkgej4r"]
+
+[ext_resource type="Shader" path="res://scenes/herb/herb.gdshader" id="1_gjf5q"]
+[ext_resource type="Script" path="res://scenes/herb/herb.gd" id="1_hh5ry"]
+[ext_resource type="Texture2D" uid="uid://jskokf1ek67c" path="res://assets/Plants.png" id="1_q25ka"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ic624"]
+shader = ExtResource("1_gjf5q")
+shader_parameter/speed = 0.3
+shader_parameter/minStrength = 0.05
+shader_parameter/maxStrength = 0.01
+shader_parameter/strengthScale = 100.0
+shader_parameter/interval = 3.5
+shader_parameter/detail = 10.0
+shader_parameter/distortion = 0.0
+shader_parameter/heightOffset = 0.5
+shader_parameter/offset = 0.0
+
+[sub_resource type="Animation" id="Animation_gcf0w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_1ewfg"]
+resource_name = "sidedwave"
+length = 5.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.122173, -0.0349066, -0.0698132, -0.0349066, -0.122173]
+}
+
+[sub_resource type="Animation" id="Animation_i1u35"]
+resource_name = "wave"
+length = 3.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0174533, -0.0174533, 0.0174533]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6mdlo"]
+_data = {
+"RESET": SubResource("Animation_gcf0w"),
+"sidedwave": SubResource("Animation_1ewfg"),
+"wave": SubResource("Animation_i1u35")
+}
+
+[sub_resource type="Curve" id="Curve_tgjto"]
+min_value = -500.0
+max_value = 500.0
+_data = [Vector2(0, 258.242), 0.0, 0.0, 0, 0, Vector2(1, -203.297), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_txms6"]
+_data = [Vector2(0, 0.32967), 0.0, 0.0, 0, 0, Vector2(0.511236, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_4irox"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 200), 0.0, 0.0, 0, 0, Vector2(1, 59.3407), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_kc47l"]
+_data = [Vector2(0, 0.120879), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_jjyrr"]
+colors = PackedColorArray(0, 0.968627, 0, 1, 0, 0.576471, 0, 1)
+
+[node name="Herb" type="Node2D"]
+script = ExtResource("1_hh5ry")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ic624")
+scale = Vector2(1, 1.00014)
+texture = ExtResource("1_q25ka")
+centered = false
+offset = Vector2(-16, -42)
+region_enabled = true
+region_rect = Rect2(480, 160, 32, 48)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6mdlo")
+}
+
+[node name="LeafParticles" type="Node2D" parent="."]
+
+[node name="1" type="CPUParticles2D" parent="LeafParticles"]
+position = Vector2(-6, -23)
+amount = 1
+lifetime = 0.8
+speed_scale = 0.05
+lifetime_randomness = 0.1
+emission_shape = 3
+emission_rect_extents = Vector2(1, 1)
+spread = 1.0
+gravity = Vector2(60.46, 53)
+orbit_velocity_curve = SubResource("Curve_tgjto")
+linear_accel_max = 125.45
+tangential_accel_min = 43.0
+tangential_accel_max = 43.0
+scale_amount_curve = SubResource("Curve_txms6")
+color = Color(0.0699403, 0.675296, 0, 1)
+
+[node name="2" type="CPUParticles2D" parent="LeafParticles"]
+position = Vector2(-6, -2)
+amount = 1
+lifetime = 0.8
+speed_scale = 0.05
+emission_shape = 3
+emission_rect_extents = Vector2(1, 1)
+spread = 1.0
+gravity = Vector2(60.46, 53)
+orbit_velocity_curve = SubResource("Curve_tgjto")
+linear_accel_max = 125.45
+tangential_accel_min = 43.0
+tangential_accel_max = 43.0
+scale_amount_curve = SubResource("Curve_txms6")
+color = Color(0.0699403, 0.675296, 0, 1)
+
+[node name="3" type="CPUParticles2D" parent="LeafParticles"]
+position = Vector2(1, -20)
+amount = 1
+lifetime = 0.8
+speed_scale = 0.05
+lifetime_randomness = 0.1
+emission_shape = 3
+emission_rect_extents = Vector2(1, 1)
+spread = 1.0
+gravity = Vector2(60.46, 53)
+orbit_velocity_curve = SubResource("Curve_tgjto")
+linear_accel_max = 125.45
+tangential_accel_min = 43.0
+tangential_accel_max = 43.0
+scale_amount_curve = SubResource("Curve_txms6")
+color = Color(0.0699403, 0.675296, 0, 1)
+
+[node name="AuraParticles" type="Node2D" parent="."]
+
+[node name="1" type="CPUParticles2D" parent="AuraParticles"]
+position = Vector2(-1, 3)
+amount = 2
+lifetime = 10.0
+speed_scale = 2.0
+lifetime_randomness = 0.4
+direction = Vector2(-1, 0)
+gravity = Vector2(-0.1, -1)
+angular_velocity_max = 58.18
+radial_accel_curve = SubResource("Curve_4irox")
+scale_amount_curve = SubResource("Curve_kc47l")
+color_ramp = SubResource("Gradient_jjyrr")
+
+[node name="2" type="CPUParticles2D" parent="AuraParticles"]
+position = Vector2(-6, 1)
+amount = 3
+lifetime = 10.0
+speed_scale = 2.0
+lifetime_randomness = 0.4
+direction = Vector2(-1, 0)
+gravity = Vector2(0, -1)
+angular_velocity_max = 58.18
+radial_accel_curve = SubResource("Curve_4irox")
+scale_amount_curve = SubResource("Curve_kc47l")
+color_ramp = SubResource("Gradient_jjyrr")
+
+[node name="3" type="CPUParticles2D" parent="AuraParticles"]
+position = Vector2(3, 1)
+amount = 2
+lifetime = 10.0
+speed_scale = 2.0
+lifetime_randomness = 0.4
+direction = Vector2(-1, 0)
+gravity = Vector2(0, -1)
+angular_velocity_max = 58.18
+radial_accel_curve = SubResource("Curve_4irox")
+scale_amount_curve = SubResource("Curve_kc47l")
+color_ramp = SubResource("Gradient_jjyrr")

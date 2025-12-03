@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://detj1rmnm3o1d"]
+
+[ext_resource type="PackedScene" uid="uid://bh4xbrwkgej4r" path="res://scenes/herb/herb.tscn" id="1_6fv82"]
+
+[node name="Main" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Herb" parent="." instance=ExtResource("1_6fv82")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Herb2" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(-16, 16)
+
+[node name="Herb3" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(24, 0)
+
+[node name="Herb4" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(16, 16)
+
+[node name="Herb5" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(16, -16)
+
+[node name="Herb6" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(-24, 0)
+
+[node name="Herb7" parent="." instance=ExtResource("1_6fv82")]
+position = Vector2(-16, -16)
