@@ -6,7 +6,7 @@ extends Node2D
 var herb_scene = preload("res://scenes/herb/herb.tscn")
 
 func _ready() -> void:
-	var seperation = 0.3
+	var seperation = 0.1
 	
 	for i in range(0,herbs_to_harvest):
 		
