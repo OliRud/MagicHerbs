@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://bh4xbrwkgej4r"]
+[gd_scene load_steps=19 format=3 uid="uid://bh4xbrwkgej4r"]
 
 [ext_resource type="Shader" path="res://scenes/herb/herb.gdshader" id="1_gjf5q"]
 [ext_resource type="Script" path="res://scenes/herb/herb.gd" id="1_hh5ry"]
 [ext_resource type="Texture2D" uid="uid://jskokf1ek67c" path="res://assets/Plants.png" id="1_q25ka"]
+[ext_resource type="AudioStream" uid="uid://oq227w31wjkb" path="res://assets/audio/825425_14007850-lq.mp3" id="4_mrhcw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ic624"]
 shader = ExtResource("1_gjf5q")
@@ -132,6 +133,10 @@ _data = {
 "wave": SubResource("Animation_i1u35")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rfcki"]
+radius = 8.0
+height = 32.0
+
 [sub_resource type="Curve" id="Curve_tgjto"]
 min_value = -500.0
 max_value = 500.0
@@ -155,9 +160,9 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_jjyrr"]
 colors = PackedColorArray(0, 0.968627, 0, 1, 0, 0.576471, 0, 1)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rfcki"]
-radius = 8.0
-height = 32.0
+[sub_resource type="Curve" id="Curve_qkl2w"]
+_data = [Vector2(0.5, 0.75), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Herb" type="Node2D"]
 script = ExtResource("1_hh5ry")
@@ -175,9 +180,17 @@ libraries = {
 "": SubResource("AnimationLibrary_6mdlo")
 }
 
-[node name="LeafParticles" type="Node2D" parent="."]
+[node name="hitarea" type="Area2D" parent="."]
 
-[node name="1" type="CPUParticles2D" parent="LeafParticles"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitarea"]
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_rfcki")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="LeafParticles" type="Node2D" parent="Particles"]
+
+[node name="1" type="CPUParticles2D" parent="Particles/LeafParticles"]
 position = Vector2(-6, -23)
 amount = 1
 lifetime = 0.8
@@ -194,7 +207,7 @@ tangential_accel_max = 43.0
 scale_amount_curve = SubResource("Curve_txms6")
 color = Color(0.0699403, 0.675296, 0, 1)
 
-[node name="2" type="CPUParticles2D" parent="LeafParticles"]
+[node name="2" type="CPUParticles2D" parent="Particles/LeafParticles"]
 position = Vector2(-6, -2)
 amount = 1
 lifetime = 0.8
@@ -210,7 +223,7 @@ tangential_accel_max = 43.0
 scale_amount_curve = SubResource("Curve_txms6")
 color = Color(0.0699403, 0.675296, 0, 1)
 
-[node name="3" type="CPUParticles2D" parent="LeafParticles"]
+[node name="3" type="CPUParticles2D" parent="Particles/LeafParticles"]
 position = Vector2(1, -20)
 amount = 1
 lifetime = 0.8
@@ -227,9 +240,9 @@ tangential_accel_max = 43.0
 scale_amount_curve = SubResource("Curve_txms6")
 color = Color(0.0699403, 0.675296, 0, 1)
 
-[node name="AuraParticles" type="Node2D" parent="."]
+[node name="AuraParticles" type="Node2D" parent="Particles"]
 
-[node name="1" type="CPUParticles2D" parent="AuraParticles"]
+[node name="1" type="CPUParticles2D" parent="Particles/AuraParticles"]
 position = Vector2(-1, 3)
 amount = 2
 lifetime = 10.0
@@ -242,7 +255,7 @@ radial_accel_curve = SubResource("Curve_4irox")
 scale_amount_curve = SubResource("Curve_kc47l")
 color_ramp = SubResource("Gradient_jjyrr")
 
-[node name="2" type="CPUParticles2D" parent="AuraParticles"]
+[node name="2" type="CPUParticles2D" parent="Particles/AuraParticles"]
 position = Vector2(-6, 1)
 amount = 3
 lifetime = 10.0
@@ -255,8 +268,7 @@ radial_accel_curve = SubResource("Curve_4irox")
 scale_amount_curve = SubResource("Curve_kc47l")
 color_ramp = SubResource("Gradient_jjyrr")
 
-[node name="3" type="CPUParticles2D" parent="AuraParticles"]
-position = Vector2(3, 1)
+[node name="3" type="CPUParticles2D" parent="Particles/AuraParticles"]
 amount = 2
 lifetime = 10.0
 speed_scale = 2.0
@@ -266,13 +278,28 @@ gravity = Vector2(0, -1)
 angular_velocity_max = 58.18
 radial_accel_curve = SubResource("Curve_4irox")
 scale_amount_curve = SubResource("Curve_kc47l")
-color_ramp = SubResource("Gradient_jjyrr")
+color = Color(0, 1, 0, 1)
 
-[node name="hitarea" type="Area2D" parent="."]
+[node name="ExplosionParticles" type="CPUParticles2D" parent="Particles"]
+position = Vector2(0, -8)
+emitting = false
+amount = 10
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 60.0
+orbit_velocity_max = 2.0
+scale_amount_curve = SubResource("Curve_qkl2w")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitarea"]
-position = Vector2(0, -12)
-shape = SubResource("CapsuleShape2D_rfcki")
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="Brush" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("4_mrhcw")
+volume_db = -2.0
+pitch_scale = 1.5
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="mouse_entered" from="hitarea" to="." method="_on_hitarea_mouse_entered"]

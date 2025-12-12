@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://detj1rmnm3o1d"]
+[gd_scene load_steps=11 format=3 uid="uid://detj1rmnm3o1d"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_c33ui"]
 [ext_resource type="Texture2D" uid="uid://cb4a21o7eyqce" path="res://assets/world/Tilesets/ground tiles/old tiles/Tilled Dirt.png" id="2_be30e"]
 [ext_resource type="Texture2D" uid="uid://u5v2khrewlaw" path="res://assets/world/Tilesets/Water.png" id="3_dp3uc"]
 [ext_resource type="Texture2D" uid="uid://b5tugfjbctimr" path="res://assets/world/Tilesets/ground tiles/new tiles/Grass hill tiles v.2.png" id="4_gulo5"]
+[ext_resource type="Shader" path="res://scenes/herb/herb.gdshader" id="5_o6ps0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxd1y"]
 texture = ExtResource("2_be30e")
@@ -144,6 +145,18 @@ sources/0 = SubResource("TileSetAtlasSource_vxd1y")
 sources/1 = SubResource("TileSetAtlasSource_50q6x")
 sources/3 = SubResource("TileSetAtlasSource_jsvhv")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3lb5o"]
+shader = ExtResource("5_o6ps0")
+shader_parameter/speed = 1.0
+shader_parameter/minStrength = 0.05
+shader_parameter/maxStrength = 0.01
+shader_parameter/strengthScale = 100.0
+shader_parameter/interval = 3.5
+shader_parameter/detail = 1.0
+shader_parameter/distortion = null
+shader_parameter/heightOffset = null
+shader_parameter/offset = 0.0
+
 [node name="Main" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_c33ui")
@@ -212,3 +225,12 @@ position = Vector2(8, 24)
 
 [node name="Marker2D16" type="Marker2D" parent="HerbDrops"]
 position = Vector2(24, 24)
+
+[node name="Label" type="Label" parent="."]
+material = SubResource("ShaderMaterial_3lb5o")
+offset_left = -57.0
+offset_top = 51.0
+offset_right = 60.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 10
+text = "Hover over mouse to hit"
